@@ -7,6 +7,6 @@ class PlotPlant < ApplicationRecord
   end
 
   def self.plants_sorted_most_to_least
-    require 'pry'; binding.pry
+    group(:plant_id).select(:plant_id).order("count(*) desc").pluck(:plant_id)
   end
 end

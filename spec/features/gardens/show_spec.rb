@@ -16,15 +16,25 @@ RSpec.describe 'show' do
     @plot_plant_2 = PlotPlant.create!(plant_id: @plant_2.id, plot_id: @plot_1.id)
     @plot_plant_3 = PlotPlant.create!(plant_id: @plant_3.id, plot_id: @plot_2.id)
     @plot_plant_4 = PlotPlant.create!(plant_id: @plant_4.id, plot_id: @plot_2.id)
-    @plot_plant_5 = PlotPlant.create!(plant_id: @plant_1.id, plot_id: @plot_2.id)
+    @plot_plant_5 = PlotPlant.create!(plant_id: @plant_2.id, plot_id: @plot_2.id)
   end
 
   it 'shows all the plants in the garden no duplicates, no days_to_harvest > 100' do
     visit "/gardens/#{@garden.id}"
 
-    expect(page).to have_content(@plant_1.name)
-    expect(page).to have_content(@plant_2.name)
-    expect(page).to_not have_content(@plant_3.name)
-    expect(page).to have_content(@plant_4.name)
+    within '#plants' do
+      expect(page).to have_content(@plant_1.name)
+      expect(page).to have_content(@plant_2.name)
+      expect(page).to_not have_content(@plant_3.name)
+      expect(page).to have_content(@plant_4.name)
+    end
+  end
+
+  it 'sorts plants by most common to least common' do
+    visit "/gardens/#{@garden.id}"
+
+    within '#sorted-plants' do
+      expect(page).to have_content(@plant_3.name)
+    end
   end
 end

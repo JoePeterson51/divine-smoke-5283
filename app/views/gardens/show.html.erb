@@ -1,4 +1,14 @@
-<h2><%= "#{@garden.name}'s Plants" %></h2>
-<% @plants.each do |plant| %>
-  <P><%= plant.name %></p>
-<% end %>
+<div id='plants'>
+  <h2><%= "#{@garden.name}'s Plants" %></h2>
+  <% @plants.each do |plant| %>
+    <P><%= plant.name %></p>
+  <% end %>
+</div>
+<br>
+<br>
+<div id='sorted-plants'>
+  <h3>Most to least common plants in garden</h3>
+  <% @sorted_plot_plant_ids.each do |plant_id| %>
+    <p><%= Plant.find(plant_id).name %></p>
+  <% end %>
+</div>

@@ -33,7 +33,7 @@ RSpec.describe PlotPlant do
 
   describe '#plants_sorted_most_to_least' do
     it 'returns the plants sorted by the ones that are most common to least' do
-      expect(PlotPlant.plants_sorted_most_to_least.first).to eq(@plant_2)
+      expect(PlotPlant.plants_sorted_most_to_least.first).to eq(@plot_plant_2.plant_id)
     end
   end
 end
