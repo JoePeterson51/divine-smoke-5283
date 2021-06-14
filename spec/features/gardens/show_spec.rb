@@ -1,12 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Plot do
-  describe 'relationships' do
-    it { should belong_to(:garden) }
-    it { should have_many :plot_plants }
-    it { should have_many(:plants).through(:plot_plants) }
-  end
-
+RSpec.describe 'show' do
   before :each do
     @garden = Garden.create!(name: 'Buzzin Bees', organic: true)
 
@@ -22,12 +16,15 @@ RSpec.describe Plot do
     @plot_plant_2 = PlotPlant.create!(plant_id: @plant_2.id, plot_id: @plot_1.id)
     @plot_plant_3 = PlotPlant.create!(plant_id: @plant_3.id, plot_id: @plot_2.id)
     @plot_plant_4 = PlotPlant.create!(plant_id: @plant_4.id, plot_id: @plot_2.id)
-    @plot_plant_5 = PlotPlant.create!(plant_id: @plant_2.id, plot_id: @plot_2.id)
+    @plot_plant_5 = PlotPlant.create!(plant_id: @plant_1.id, plot_id: @plot_2.id)
   end
 
-  describe '#distinct_plant_names' do
-    it 'returns plant names no duplicates, no plants days_to_harvest > 100' do
-      expect(@garden.plots.distinct_plant_names).to eq([@plant_2.name, @plant_1.name, @plant_4.name])
-    end
+  it 'shows all the plants in the garden no duplicates, no days_to_harvest > 100' do
+    visit "/gardens/#{@garden.id}"
+
+    expect(page).to have_content(@plant_1.name)
+    expect(page).to have_content(@plant_2.name)
+    expect(page).to_not have_content(@plant_3.name)
+    expect(page).to have_content(@plant_4.name)
   end
 end
